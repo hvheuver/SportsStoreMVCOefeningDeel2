@@ -1,0 +1,60 @@
+﻿@model System.Collections.Generic.IEnumerable<SportsStore.Models.Domain.Product>
+
+@{
+    ViewData["Title"] = "Products";
+}
+
+<h2>@ViewData["Title"]</h2>
+
+<form asp-controller="Product" asp-action="Index">
+    <div class="form-inline">
+        <div class="form-group">
+        <label for="CategoryId"></label>
+        <select id="CategoryId" name="CategoryId" asp-items="@(ViewData["Categories"] as SelectList)" class="form-control">
+            <option value="">-- select a category --</option>
+        </select>
+        </div>
+        <button type="submit" class="btn btn-default">Submit</button>
+    <a asp-controller="Product" asp-action="Create" class="btn btn-default text-right">New Product</a>
+    </div>
+</form>
+<p></p>
+
+<table class="table">
+    <tr>
+        <th>Name</th>
+        <th>Description</th>
+        <th class="text-right">Price</th>
+        <th class="text-center">In Stock</th>
+        <th>Availability</th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @item.Name
+            </td>
+            <td>
+                @item.Description
+            </td>
+            <td class="text-right">
+                @($"{item.Price:N0} €")
+            </td>
+            <td class="text-center">
+                <input type="checkbox" @(item.InStock ? "checked" : "") />
+            </td>
+
+            <td>
+                @item.Availability
+            </td>
+
+            <td>
+                <a asp-controller="Product" asp-action="Edit" asp-route-id="@item.ProductId">Edit</a> |
+                <a asp-controller="Product" asp-action="Delete" asp-route-id="@item.ProductId">Delete</a>
+            </td>
+        </tr>
+    }
+
+</table>
